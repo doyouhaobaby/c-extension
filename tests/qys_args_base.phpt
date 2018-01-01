@@ -17,10 +17,43 @@ echo "qys extension is available";
 	see php7/README.TESTING for further information on
   writing regression tests
 */
-echo PHP_EOL;
-echo qys_args_base(1,2,3);
-// must three args
-//echo qys_args_base(1,2);
+// echo PHP_EOL;
+// echo qys_args_base(1,2,3);
+// // must three args
+// //echo qys_args_base(1,2);
+
+// qys_zend_parse_para('i am stirng', true);
+// //qys_zend_parse_para(true, 1);
+
+// //qys_zend_parse_array([1]);
+// //qys_zend_parse_array([2], 5);
+
+// class demo {
+
+// }
+
+// qys_zend_parse_object(new demo);
+// //qys_zend_parse_object(5); error
+// //
+// qys_zend_args(1,2,3);
+
+//qys_zend_args(1,2,3,4);
+
+///class demo {}
+
+// var_dump(qys_zend_parse_array(1));
+// var_dump(qys_zend_parse_array('string'));
+// var_dump(qys_zend_parse_array([5]));
+// var_dump(qys_zend_parse_array(new demo));
+// var_dump(qys_zend_parse_array(65.5));
+// var_dump(qys_zend_parse_array(null));
+// var_dump(qys_zend_parse_array());
+// var_dump(qys_zend_parse_array());
+// var_dump(qys_zend_parse_array());
+// var_dump(qys_zend_parse_array());
+// var_dump(qys_zend_parse_array());
+// 
+qys_zend_parse_array(44);
 ?>
 --EXPECT--
 qys extension is available

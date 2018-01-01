@@ -133,6 +133,7 @@ PHP_FUNCTION(qys_helloworld)
     RETURN_STR(strg);
 }
 
+
 PHP_FUNCTION(qys_default_value)
 {
     zend_string     *type;
@@ -197,7 +198,124 @@ PHP_FUNCTION(qys_args_base)
 	}
 }
 
-// http://www.bo56.com/php7%E6%89%A9%E5%B1%95%E5%BC%80%E5%8F%91%E4%B9%8B%E5%88%9B%E5%BB%BA%E5%8F%98%E9%87%8F/
+// 函数参数分析 test
+PHP_FUNCTION(qys_zend_parse_para) {
+	int slen;
+	char *str;
+	zend_bool b;
+
+	if(zend_parse_parameters(ZEND_NUM_ARGS(), "sb", &str, &slen, &b) == FAILURE) {
+		return;
+	}
+}
+
+void display_value(zval *zv)
+{
+	if(Z_TYPE_P(zv) != IS_STRING) {
+		php_printf("这个变量不是字符串");
+		return;
+	}
+
+	PHPWRITE(Z_STRVAL_P(zv), Z_STRLEN_P(zv));
+}
+
+// 数组参数
+PHP_FUNCTION(qys_zend_parse_array) {
+	zval *arg;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "z", &arg) == FAILURE) {
+		return;
+	}
+
+
+	display_value(arg);
+
+	// switch (Z_TYPE_P(arg)) {
+	// 	case IS_NULL:
+	// 		RETVAL_STRING("NULL");
+	// 		break;
+
+	// 	case IS_FALSE:
+	// 	case IS_TRUE:
+	// 		RETVAL_STRING("boolean");
+	// 		break;
+
+	// 	case IS_LONG:
+	// 		RETVAL_STRING("integer");
+	// 		break;
+
+	// 	case IS_DOUBLE:
+	// 		RETVAL_STRING("double");
+	// 		break;
+
+	// 	case IS_STRING:
+	// 		RETVAL_STRING("string");
+	// 		break;
+
+	// 	case IS_ARRAY:
+	// 		RETVAL_STRING("array");
+	// 		break;
+
+	// 	case IS_OBJECT:
+	// 		RETVAL_STRING("object");
+
+	// 	   {
+	// 	   char *result;
+	// 	   int res_len;
+
+	// 	   res_len = sizeof("object of type ")-1 + Z_OBJCE_P(arg)->name_length;
+	// 	   spprintf(&result, 0, "object of type %s", Z_OBJCE_P(arg)->name);
+	// 	   RETVAL_STRINGL(result, res_len);
+	// 	   efree(result);
+	// 	   }
+
+	// 		break;
+
+	// 	case IS_RESOURCE:
+	// 		{
+	// 			const char *type_name = zend_rsrc_list_get_rsrc_type(Z_RES_P(arg));
+
+	// 			if (type_name) {
+	// 				RETVAL_STRING("resource");
+	// 				break;
+	// 			}
+	// 		}
+
+	// 	default:
+	// 		RETVAL_STRING("unknown type");
+	//}
+}
+
+PHP_FUNCTION(qys_zend_parse_object) {
+	zval *object;
+
+	if(zend_parse_parameters(ZEND_NUM_ARGS(), "o!", &object) == FAILURE) {
+		return;
+	}
+}
+
+PHP_FUNCTION(qys_zend_args) {
+	// zval *parameters_list[3];
+	// int num_args = ZEND_NUM_ARGS();
+
+	// if(num_args > 3) {
+	//  	WRONG_PARAM_COUNT;
+	// }
+
+	// // //zend_get_parameters_ex
+	// // //zend_get_parameters_array_ex
+	// if(_zend_get_parameters_array_ex(num_args, &parameters_list) == FAILURE) {
+	//  	return;
+	// }
+
+	//php_printf("%s", parameters_list[0]);
+	//php_printf("%s", parameters_list[1]);
+	//php_printf("%s", parameters_list[3]);
+
+}
+
+
+
 PHP_FUNCTION(qys_define_var)
 {
 	zval var_value; //变量的值
@@ -351,6 +469,7 @@ static void say_entry_dtor_persistent(zval *zvalue)
         zend_string_release(Z_STR_P(zvalue));
     }
 }
+
 /* }}} */
 
 /* {{{ PHP_MINIT_FUNCTION
@@ -459,6 +578,10 @@ const zend_function_entry qys_functions[] = {
 	PHP_FE(qys_array_concat,  NULL)
 	PHP_FE(qys_call_function,  NULL)
 	PHP_FE(qys_args_base,  NULL)
+	PHP_FE(qys_zend_parse_para, NULL)
+	PHP_FE(qys_zend_parse_array, NULL)
+	PHP_FE(qys_zend_parse_object, NULL)
+	PHP_FE(qys_zend_args, NULL)
 	PHP_FE_END	/* Must be the last line in qys_functions[] */
 };
 /* }}} */
